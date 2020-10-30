@@ -3,7 +3,7 @@
 ## __Project Summary__
 In this project, texts and tweets from various natural disasters in 2010 and 2012 have been provided by Figure Eight in their original language and with translation in english. All messages are labeled with their relation to 36 categories.
 
-After cleaning and consolidate the data into a SQLite database we will be able to extract features and test different Machine Learning (ML) algorithms with the intent to better predict future messages categories and potentially organize the proper response more efficiently.
+After cleaning and consolidating the data into a SQLite database we are extracting features and testing different Machine Learning (ML) algorithms with the intent to better predict future messages categories and potentially organize the proper response more efficiently.
 
 
 ## __Choosing the model (running the scripts)__
