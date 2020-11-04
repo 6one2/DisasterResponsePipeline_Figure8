@@ -22,7 +22,8 @@ The ML pipeline runs as follow:
 
 2. A grid search tests first a RandomForest Classifier and then a AdaBoost Classifier with different parameters.
 
-Other classifiers have been tested (LogisticResgression or Multi...) but the RandomForest always provided the best score.
+Other classifiers have been tested (LogisticResgression or MultinomialNB...) but the RandomForest always provided the best score. We decided to run `train_classifiers.py` with only `params2` in `GridsearchCV()` for speed but change to `params1` for full grid search.
+
 > Better score with other classifiers might be achieved by cleaning the data more aggressively: the categories with very little information (very small amount of some class like in _"ChildAlone"_) could be removed from the dataset.
 
 ## __Running the App__
