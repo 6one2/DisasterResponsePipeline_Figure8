@@ -14,6 +14,7 @@ flask = "*"
 sqlalchemy = "*"
 regex = "*"
 nltk = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
