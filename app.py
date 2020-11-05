@@ -14,6 +14,7 @@ from model.train_classifier import FeatureCount
 
 
 app = Flask(__name__)
+app.config['PROPAGATE_EXCEPTIONS'] = True # enable log from Flask
 
 def tokenize(text):
     tokens = word_tokenize(text)
