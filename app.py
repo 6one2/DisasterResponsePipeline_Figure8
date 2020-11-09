@@ -10,22 +10,22 @@ from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 from joblib import dump, load
 from sqlalchemy import create_engine
-from model.train_classifier import FeatureCount
+from model.train_classifier import FeatureCount, tokenize
 
 
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True # enable log from Flask
 
-def tokenize(text):
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
+# def tokenize(text):
+#     tokens = word_tokenize(text)
+#     lemmatizer = WordNetLemmatizer()
 
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
+#     clean_tokens = []
+#     for tok in tokens:
+#         clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+#         clean_tokens.append(clean_tok)
 
-    return clean_tokens
+#     return clean_tokens
 
 # load data
 database_filename = './data/DisasterResponse.db'
