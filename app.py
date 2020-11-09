@@ -34,7 +34,9 @@ engine = create_engine(f'sqlite:///{database_filename}')
 df = pd.read_sql_table('MyTable', engine)
 
 # load model
-model = load('./model/best_model.pkl.z')
+with open('./model/best_model.pkl.z', 'rb') as f:
+    model = load(f)
+# model = load('./model/best_model.pkl.z', 'r+')
 
 
 # index webpage displays cool visuals and receives user input text for model
