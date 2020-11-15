@@ -10,31 +10,21 @@ from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 from joblib import dump, load
 from sqlalchemy import create_engine
-from model.train_classifier import FeatureCount, tokenize
+from utils.utils import FeatureCount, tokenize
 
 
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True # enable log from Flask
 
-# def tokenize(text):
-#     tokens = word_tokenize(text)
-#     lemmatizer = WordNetLemmatizer()
-
-#     clean_tokens = []
-#     for tok in tokens:
-#         clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-#         clean_tokens.append(clean_tok)
-
-#     return clean_tokens
 
 # load data
-database_filename = './data/DisasterResponse.db'
+database_filename = '../data/DisasterResponse.db'
 # engine = create_engine('sqlite:///.../data/DisasterResponse.db')
 engine = create_engine(f'sqlite:///{database_filename}')
 df = pd.read_sql_table('MyTable', engine)
 
 # load model
-with open('./model/best_model.pkl.z', 'rb') as f:
+with open('../model/best_model.pkl.z', 'rb') as f:
     model = load(f)
 # model = load('./model/best_model.pkl.z', 'r+')
 
