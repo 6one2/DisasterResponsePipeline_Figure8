@@ -6,5 +6,5 @@ setup(
     description='utilities for heroku deployment',
     author='Sebastien Villard',
     author_email='sebastien.villard@gmail.com',
-    packages=['utils'],  #same as name
+    packages=['utils']  #same as name
 )

@@ -15,6 +15,7 @@ sqlalchemy = "*"
 regex = "*"
 nltk = "*"
 gunicorn = "*"
+pipenv = "*"
 
 [requires]
 python_version = "3.8"
