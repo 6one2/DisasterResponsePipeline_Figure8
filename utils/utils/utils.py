@@ -11,6 +11,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 
 nltk.download([
+    'punkt'
     'stopwords', 
     'averaged_perceptron_tagger', 
     'maxent_ne_chunker',
