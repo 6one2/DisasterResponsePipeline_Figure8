@@ -27,6 +27,7 @@ Other classifiers have been tested (LogisticResgression or MultinomialNB...) but
 > Better score with other classifiers might be achieved by cleaning the data more aggressively: the categories with very little information (very small amount of some class like in _"ChildAlone"_) could be removed from the dataset.
 
 ## __Running the App__
+The app is hosted on heroku [here](https://obscure-bayou-51294.herokuapp.com)
 
 ## __Project Structure__
  - data: Contains the ETL script to clean and consolidate the messages and the categories `process_data.py`. It also contains the different data files `messages.csv` and `categories.csv` and the database output of ETL.

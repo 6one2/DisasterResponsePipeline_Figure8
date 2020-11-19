@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.express as px
 
 if False:
     cat_class = pd.DataFrame()
@@ -65,7 +66,8 @@ def bar_stack(data):
             },
             'yaxis': {
                 'tickformat': ',.0%'
-            }
+            },
+            'colorway': px.colors.qualitative.Safe
         }
     )
     
