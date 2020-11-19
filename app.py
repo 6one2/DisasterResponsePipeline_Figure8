@@ -12,6 +12,7 @@ from joblib import dump, load
 from sqlalchemy import create_engine
 from utils.utils import FeatureCount, tokenize
 
+from data.plot_data import get_cat, bar_stack
 
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True # enable log from Flask
@@ -61,6 +62,13 @@ def index():
             }
         }
     ]
+    
+    # get category from df
+    # generate stacked barplot representing percentage of each class per category
+    cat_data = get_cat(df.drop(columns=['message', 'original', 'genre']))
+    cat_fig = bar_stack(cat_data.sort_values(by=[0,1]))
+    
+    graphs.append(cat_fig)
     
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
