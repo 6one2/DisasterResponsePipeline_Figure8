@@ -8,6 +8,7 @@ import joblib
 from collections import defaultdict
 import pprint
 
+from sqlalchemy import create_engine 
 
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.pipeline import Pipeline, FeatureUnion
@@ -20,7 +21,24 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report
 
-from utils.utils import load_data, tokenize, FeatureCount
+from utils.utils import tokenize, FeatureCount
+
+
+def load_data(database_filepath):
+    '''
+    load data from sql data base
+    database_filepath - path of database
+    table_name - "MyTable" (see process_data.save_data())
+    '''
+    
+    engine = create_engine('sqlite:///'+database_filepath)
+    df = pd.read_sql_table("MyTable", engine)  
+    df = df[:1000] # to test code on smaller sample
+    
+    X = df['message']
+    y = df.drop(columns=['message', 'original', 'genre'])
+    
+    return X, y, y.columns.tolist()
       
     
 def build_model():
