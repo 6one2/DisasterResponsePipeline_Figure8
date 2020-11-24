@@ -1,4 +1,5 @@
--i https://pypi.python.org/simple/ herokutils==0.0.1
+-i https://pypi.python.org/simple/
+herokutils==0.0.1
 click==7.1.2
 Flask==1.1.2
 itsdangerous==1.1.0
