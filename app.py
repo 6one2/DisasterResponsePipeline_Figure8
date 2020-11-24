@@ -2,20 +2,18 @@ import json
 import plotly
 import pandas as pd
 
-from nltk.stem import WordNetLemmatizer
-from nltk.tokenize import word_tokenize
-
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
-from joblib import dump, load
+from joblib import load
 from sqlalchemy import create_engine
-from utils.utils import FeatureCount, tokenize
+# from utils.utils import FeatureCount, tokenize
+from herokutils.utils import tokenize, FeatureCount
 
 from data.plot_data import get_cat, bar_stack
 
 app = Flask(__name__)
-app.config['PROPAGATE_EXCEPTIONS'] = True # enable log from Flask
+app.config['PROPAGATE_EXCEPTIONS'] = True  # enable log from Flask
 
 
 # load data
@@ -34,12 +32,12 @@ with open('model/classifier.pkl.z', 'rb') as f:
 @app.route('/')
 @app.route('/index')
 def index():
-    
+
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
-    
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -62,18 +60,18 @@ def index():
             }
         }
     ]
-    
+
     # get category from df
     # generate stacked barplot representing percentage of each class per category
     cat_data = get_cat(df.drop(columns=['message', 'original', 'genre']))
-    cat_fig = bar_stack(cat_data.sort_values(by=[0,1]))
-    
+    cat_fig = bar_stack(cat_data.sort_values(by=[0, 1]))
+
     graphs.append(cat_fig)
-    
+
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
     graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
-    
+
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
 
@@ -82,13 +80,13 @@ def index():
 @app.route('/go')
 def go():
     # save user input in query
-    query = request.args.get('query', '') 
+    query = request.args.get('query', '')
 
     # use model to predict classification for query
     classification_labels = model.predict([query])[0]
     classification_results = dict(zip(df.columns[4:], classification_labels))
 
-    # This will render the go.html Please see that file. 
+    # This will render the go.html Please see that file.
     return render_template(
         'go.html',
         query=query,
@@ -97,7 +95,7 @@ def go():
 
 
 def main():
-#     app.run(host='0.0.0.0', port=3001, debug=True)
+    #     app.run(host='0.0.0.0', port=3001, debug=True)
     app.run(debug=True)
 
 
