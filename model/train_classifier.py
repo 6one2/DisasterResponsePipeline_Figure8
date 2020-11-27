@@ -2,6 +2,8 @@ import sys
 import pandas as pd
 import joblib
 
+import random
+
 from collections import defaultdict
 import pprint
 
@@ -30,7 +32,13 @@ def load_data(database_filepath):
 
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table("MyTable", engine)
-    # df = df[:1000]  # to test code on smaller sample
+
+    if False:
+        # take random sample of n for heroku deploy
+        # slug must be < 500Mb
+        n = 10000
+        rnd_idx = random.sample(list(df.index), n)
+        df = df.reindex(index=rnd_idx)
 
     X = df['message']
     y = df.drop(columns=['message', 'original', 'genre'])
