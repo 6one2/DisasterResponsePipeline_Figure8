@@ -15,6 +15,8 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 
+from sklearn.svm import SVC
+
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report
@@ -33,7 +35,7 @@ def load_data(database_filepath):
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table("MyTable", engine)
 
-    if True:
+    if False:
         # take random sample of n for heroku deploy
         # slug must be < 500Mb
         n = 5000
@@ -41,7 +43,7 @@ def load_data(database_filepath):
         df = df.reindex(index=rnd_idx)
 
     X = df['message']
-    y = df.drop(columns=['message', 'original', 'genre'])
+    y = df.drop(columns=['message', 'original', 'genre', 'child_alone'])
 
     return X, y, y.columns.tolist()
 
@@ -81,9 +83,9 @@ def build_model():
             'clf__estimator__max_features': ['sqrt']
         },
         {
-            'clf__estimator': [AdaBoostClassifier()],
-            'clf__estimator__learning_rate':[0.5, 1],
-            'clf__estimator__n_estimators':[10, 25, 50]
+            'clf__estimator': [SVC()],
+            'clf__estimator__kernel': ['linear', 'rbf'],
+            'clf__estimator__gamma': ['scale', 'auto'],
         }
     ]
 
@@ -96,7 +98,14 @@ def build_model():
         'clf__estimator__max_features': ['sqrt']
     }]
 
-    cv = GridSearchCV(pipe1, params2, cv=5)  # remove n_job=-1 to avoid memory leak (check clf)
+    # try with SVC
+    params3 = [{
+        'clf__estimator': [SVC()],
+        'clf__estimator__kernel': ['linear'],
+        'clf__estimator__gamma': ['scale'],
+    }]
+
+    cv = GridSearchCV(pipe1, params3, cv=5)  # remove n_job=-1 to avoid memory leak (check clf)
 
     return cv
 
@@ -122,13 +131,17 @@ def evaluate_model(model, X_test, Y_test, category_names):
     print(res)
     print(f'Total Average:\n{res.mean()}')
 
+    # save results into a markdown file in ./model/ (requires tabulate)
+    with open('model/model3_results.md', 'w') as fid:
+        print(res.to_markdown(), file=fid)
+
     return res
 
 
 def save_model(model, model_filepath):
 
-    with open(model_filepath+'.z', 'wb') as f:
-        joblib.dump(model.best_estimator_, f, compress=True)
+    with open(model_filepath, 'wb') as f:
+        joblib.dump(model.best_estimator_, f, compress=False)
 
 
 def main():
@@ -149,9 +162,6 @@ def main():
 
         print('Evaluating model...')
         res = evaluate_model(model, X_test, Y_test, category_names)
-        # save results into a markdown file in ./model/ (requires tabulate)
-        with open('model/model_results.md', 'w') as f:
-            print(res.to_markdown(), file=f)
 
         print('Saving model...\n\tMODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)
