@@ -29,17 +29,20 @@ The ML pipeline runs as follow:
 
 Other classifiers have been tested (LogisticResgression or MultinomialNB...) but the RandomForest always provided the best score. We decided to run `train_classifiers.py` with only `params2` in `GridsearchCV()` for speed but change to `params1` for full grid search.
 
+The score the best estimator is printed in the console and save in a file as `model_results.md`
+
 > Better score with other classifiers might be achieved by cleaning the data more aggressively: the categories with very little information (very small amount of some class like in _"ChildAlone"_, see class per category graph in app) could be removed from the dataset.
 
 ## __Running the App__
-The app is hosted on heroku [here](https://pacific-fortress-23259.herokuapp.com)
+The app is hosted on heroku [here](https://pacific-fortress-23259.herokuapp.com).
+> Because of the constraints of the free heroku dynos, this app was trained only over 5000 random samples from `DisasterResponse.db` in order to limit the size to the model.
 
 To run the app locally, after having generated the classifier run:
 `python app.py`
 
 > verify that the name of the classifier file is correct line 26
 
-## __Project Structure__ 
+## __Project Structure__
 
 ```
 .
@@ -56,14 +59,13 @@ To run the app locally, after having generated the classifier run:
 │   └── process_data.py
 ├── model
 │   ├── classifier.pkl.z
+│   ├── model_results.md
 │   └── train_classifier.py
 ├── nltk.txt
 └── templates
     ├── go.html
     └── master.html
 ```
-
- - data: Contains the ETL script to clean and consolidate the messages and the categories `process_data.py`. It also contains the different data files `messages.csv` and `categories.csv` and the database output of ETL.
 
 ## __References__
 1. datasets from Figure Eight: [https://appen.com/datasets/combined-disaster-response-data/](https://appen.com/datasets/combined-disaster-response-data/)

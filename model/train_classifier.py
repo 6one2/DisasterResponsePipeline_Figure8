@@ -33,10 +33,10 @@ def load_data(database_filepath):
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table("MyTable", engine)
 
-    if False:
+    if True:
         # take random sample of n for heroku deploy
         # slug must be < 500Mb
-        n = 10000
+        n = 5000
         rnd_idx = random.sample(list(df.index), n)
         df = df.reindex(index=rnd_idx)
 
@@ -148,7 +148,10 @@ def main():
         print(f'\tBest Score:{model.best_score_:.3}', '\n')
 
         print('Evaluating model...')
-        evaluate_model(model, X_test, Y_test, category_names)
+        res = evaluate_model(model, X_test, Y_test, category_names)
+        # save results into a markdown file in ./model/ (requires tabulate)
+        with open('model/model_results.md', 'w') as f:
+            print(res.to_markdown(), file=f)
 
         print('Saving model...\n\tMODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)

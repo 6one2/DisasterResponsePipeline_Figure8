@@ -22,5 +22,6 @@ MarkupSafe = "*"
 SQLAlchemy = "*"
 Werkzeug = "*"
 gunicorn = "*"
+tabulate = "*"
 
 [dev-packages]
