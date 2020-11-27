@@ -39,7 +39,30 @@ To run the app locally, after having generated the classifier run:
 
 > verify that the name of the classifier file is correct line 26
 
-## __Project Structure__
+## __Project Structure__ 
+
+```
+.
+├── Pipfile
+├── Pipfile.lock
+├── Procfile
+├── README.md
+├── app.py
+├── data
+│   ├── DisasterResponse.db
+│   ├── categories.csv
+│   ├── messages.csv
+│   ├── plot_data.py
+│   └── process_data.py
+├── model
+│   ├── classifier.pkl.z
+│   └── train_classifier.py
+├── nltk.txt
+└── templates
+    ├── go.html
+    └── master.html
+```
+
  - data: Contains the ETL script to clean and consolidate the messages and the categories `process_data.py`. It also contains the different data files `messages.csv` and `categories.csv` and the database output of ETL.
 
 ## __References__

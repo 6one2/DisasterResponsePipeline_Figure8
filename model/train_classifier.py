@@ -30,7 +30,7 @@ def load_data(database_filepath):
 
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table("MyTable", engine)
-    df = df[:1000]  # to test code on smaller sample
+    # df = df[:1000]  # to test code on smaller sample
 
     X = df['message']
     y = df.drop(columns=['message', 'original', 'genre'])
