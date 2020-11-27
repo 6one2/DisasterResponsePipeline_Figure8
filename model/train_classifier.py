@@ -132,7 +132,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
     print(f'Total Average:\n{res.mean()}')
 
     # save results into a markdown file in ./model/ (requires tabulate)
-    with open('model/model3_results.md', 'w') as fid:
+    with open('model/model_results.md', 'w') as fid:
         print(res.to_markdown(), file=fid)
 
     return res

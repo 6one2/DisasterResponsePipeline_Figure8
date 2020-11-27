@@ -23,7 +23,7 @@ engine = create_engine(f'sqlite:///{database_filename}')
 df = pd.read_sql_table('MyTable', engine)
 
 # load model
-with open('model/classifier.pkl.z', 'rb') as f:
+with open('model/classifier.pkl', 'rb') as f:
     model = load(f)
 # model = load('./model/best_model.pkl.z', 'r+')
 
