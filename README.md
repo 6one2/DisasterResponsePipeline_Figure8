@@ -25,11 +25,11 @@ The ML pipeline runs as follow:
  - TF-IDF on cleaned and lemmatized words
  - create custom features (count of nouns, cardinals, characters, punctuations, stopwords and word mean length) and scales the counts between 0 and 1 to match TF-IDF scores.
 
-2. A grid search tests first a RandomForest Classifier and then a AdaBoost Classifier with different parameters.
+2. A grid search tests first a RandomForest Classifier and then a Support Vector classifier with different parameters.
 
-Other classifiers have been tested (LogisticResgression or MultinomialNB...) but the RandomForest always provided the best score. We decided to run `train_classifiers.py` with only `params2` in `GridsearchCV()` for speed but change to `params1` for full grid search.
+Other classifiers have been tested (LogisticResgression, Adaboost MultinomialNB...) but the RandomForest and SVC provided the best scores. We decided to run `train_classifiers.py` with only `params2` or `params3` in `GridsearchCV()` for speed but change to `params1` for full grid search.
 
-The score the best estimator is printed in the console and save in a file as `model_results.md`
+The _weighted average_ score of the best estimator is printed in the console and saved in a file as `model/model_results.md`
 
 > Better score with other classifiers might be achieved by cleaning the data more aggressively: the categories with very little information (very small amount of some class like in _"ChildAlone"_, see class per category graph in app) could be removed from the dataset.
 
@@ -58,7 +58,7 @@ To run the app locally, after having generated the classifier run:
 │   ├── plot_data.py
 │   └── process_data.py
 ├── model
-│   ├── classifier.pkl.z
+│   ├── classifier.pkl
 │   ├── model_results.md
 │   └── train_classifier.py
 ├── nltk.txt

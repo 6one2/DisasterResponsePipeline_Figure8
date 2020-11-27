@@ -77,9 +77,9 @@ def build_model():
     params1 = [
         {
             'clf__estimator': [RandomForestClassifier(n_jobs=-1)],
-            'clf__estimator__min_samples_leaf': [1],
-            'clf__estimator__bootstrap': [False],
-            'clf__estimator__n_estimators': [200],
+            'clf__estimator__min_samples_leaf': [1, 2, 4],
+            'clf__estimator__bootstrap': [True, False],
+            'clf__estimator__n_estimators': [100, 200],
             'clf__estimator__max_features': ['sqrt']
         },
         {
@@ -105,7 +105,7 @@ def build_model():
         'clf__estimator__gamma': ['scale'],
     }]
 
-    cv = GridSearchCV(pipe1, params3, cv=5)  # remove n_job=-1 to avoid memory leak (check clf)
+    cv = GridSearchCV(pipe1, params1, cv=5)  # remove n_job=-1 to avoid memory leak (check clf)
 
     return cv
 
