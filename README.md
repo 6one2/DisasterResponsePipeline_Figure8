@@ -3,11 +3,11 @@
 ## __Project Summary__
 In this project, texts and tweets from various natural disasters in 2010 and 2012 have been provided by Figure Eight in their original language and with translation in English. All messages are labeled with their relation to 36 categories.
 
-After cleaning and consolidating the data into an SQLite database we are extracting features and testing different Machine Learning (ML) algorithms with the intent to better predict future message categories and potentially organize the proper response more efficiently.
+After cleaning and consolidating the data into an SQLite database we are extracting features and testing different Machine Learning (ML) algorithms with the intent to better predict future message categories and potentially organize a proper response more efficiently.
 
 ## __Local installation__
  - Clone github repository: `git clone https://github.com/6one2/DisasterResponsePipeline_Figure8.git`
- - Create virtual environement: `pipenv shell` and install required packages `pipenv install`
+ - Create virtual environment: `pipenv shell` and install required packages `pipenv install`
 
  > For deployment purpose, a custom package ([`herokutils`](https://pypi.org/project/herokutils/)) has been created for the classes used in both the training and the prediction process phase.
 
@@ -15,13 +15,13 @@ After cleaning and consolidating the data into an SQLite database we are extract
 After running the ETL script `data/process_data.py` you will be able to run the ML pipeline `model/train_classifier.py`
 
 > To run the ETL and save the database:\
-`python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
+`python data/process_data.py data/messages.csv data/categories.csv data/DisasterResponse.db`
 
 > To run the ML pipeline that trains the classifier and saves the model:\
 `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
 
 The ML pipeline runs as follow:
-1. creates features: check `models/train_classifier.build_model()`
+1. creates features: check `model/train_classifier.build_model()`
  - TF-IDF on cleaned and lemmatized words
  - create custom features (count of nouns, cardinals, characters, punctuations, stopwords and word mean length) and scales the counts between 0 and 1 to match TF-IDF scores.
 
@@ -29,9 +29,9 @@ The ML pipeline runs as follow:
 
 Other classifiers have been tested (LogisticResgression, Adaboost MultinomialNB...) but the RandomForest and SVC provided the best scores. We decided to run `train_classifiers.py` with only `params2` or `params3` in `GridsearchCV()` for speed but change to `params1` for full grid search.
 
-The _weighted average_ score of the best estimator is printed in the console and saved in a file as `model/model_results.md`
+The _weighted average_ scores of the best estimator per caregory is printed in the console and saved in a file as `model/model_results.md`
 
-> Better score with other classifiers might be achieved by cleaning the data more aggressively: the categories with very little information (very small amount of some class like in _"ChildAlone"_, see class per category graph in app) could be removed from the dataset.
+> the category _child_alone_ has been removed from the dataset because it was composed of only 1 class.
 
 ## __Running the App__
 The app is hosted on heroku [here](https://pacific-fortress-23259.herokuapp.com).
@@ -41,6 +41,10 @@ To run the app locally, after having generated the classifier run:
 `python app.py`
 
 > verify that the name of the classifier file is correct line 26
+
+## __Deployment warning__
+
+If you intend to deploy the app, the choice of the classifier might impact the deployment on heroku (for the free service). The size of the classifier (large size with RandomForest classifier) might require LFS tracking for Github and special build-packs integration on heroku. For more info read [this](https://towardsdatascience.com/everything-from-your-deep-learning-model-to-a-web-app-279cd733f3d4).
 
 ## __Project Structure__
 

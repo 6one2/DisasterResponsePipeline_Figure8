@@ -50,6 +50,12 @@ def clean_data(df):
     mask = df['message'].apply(lambda t: re.findall('\w',t)!=[]).values
     df = df[mask]
     
+    #remove extra-classes (to keep binary data)
+    cat = df.drop(columns=['message', 'original', 'genre'])
+    mask = (cat.values>=2).any(1) # find rows with extra-class
+    df = df[~mask] # remove rows with extra-class
+        
+    
     #remove duplicates
     print(f'Number of duplicates before: {df.duplicated(keep="first").sum()}')
     n_df = df.drop_duplicates()
