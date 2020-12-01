@@ -8,11 +8,11 @@ if False:
     for col in y:
         cat_class[col] = y[col].value_counts(sort=False, normalize=True)
 
-    cat_class = cat_class.T # transpose dataframe for stackplot
+    cat_class = cat_class.T  # transpose dataframe for stackplot
 
     # test plot
     if False:
-        cat_class.sort_values(by=[0,1]).plot(
+        cat_class.sort_values(by=[0, 1]).plot(
             kind='barh',
             stacked=True,
             colormap=ListedColormap(sns.color_palette("colorblind", 10))
@@ -26,7 +26,7 @@ def get_cat(cat):
     for col in cat:
         cat_class[col] = cat[col].value_counts(sort=False, normalize=True)
 
-    return cat_class.T 
+    return cat_class.T
     pass
 
 
@@ -43,15 +43,15 @@ def bar_stack(data):
         name='1'
     )
 
-    t3 = go.Bar(
-        x=list(data.index),
-        y=data[2],
-        name='2'
-    )
+    # t3 = go.Bar(
+    #     x=list(data.index),
+    #     y=data[2],
+    #     name='2'
+    # )
 
+    # data=[t1, t2, t3]
+    data = [t1, t2]
 
-    data=[t1, t2, t3]
-    
     fig = go.Figure(
         data=data,
         layout={
@@ -70,5 +70,5 @@ def bar_stack(data):
             'colorway': px.colors.qualitative.Safe
         }
     )
-    
+
     return fig
